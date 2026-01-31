@@ -1,5 +1,11 @@
 import Stripe from "stripe";
 
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  typescript: true,
-});
+function getStripe() {
+  const key = process.env.STRIPE_SECRET_KEY;
+  if (!key || key === "your_stripe_secret_key") {
+    return null;
+  }
+  return new Stripe(key, { typescript: true });
+}
+
+export const stripe = getStripe();

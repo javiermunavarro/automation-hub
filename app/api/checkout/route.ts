@@ -5,6 +5,13 @@ import { cookies } from "next/headers";
 
 export async function POST(request: NextRequest) {
   try {
+    if (!stripe) {
+      return NextResponse.json(
+        { error: "Stripe is not configured" },
+        { status: 503 }
+      );
+    }
+
     const body = await request.json();
     const { automationId, priceMonthly, setupFee, title } = body;
 
