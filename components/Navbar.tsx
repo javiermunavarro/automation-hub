@@ -2,18 +2,13 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Sparkles, Menu, X, LogOut, User, Bell, Search } from "lucide-react";
+import { Menu, X, LogOut, User, Bell, Search, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
 import type { User as SupabaseUser } from "@supabase/supabase-js";
 import SearchModal from "@/components/SearchModal";
-
-const baseNavLinks = [
-  { href: "/marketplace", label: "Marketplace" },
-  { href: "/dashboard/seller", label: "Sell" },
-  { href: "/dashboard/buyer", label: "My Subscriptions" },
-];
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 
 const placeholderNotifications = [
   { id: 1, text: "Your automation 'AI Email Writer' was approved!", time: "2h ago", unread: true },
@@ -24,12 +19,13 @@ const placeholderNotifications = [
 export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const [user, setUser] = useState<SupabaseUser | null>(null);
   const [userRole, setUserRole] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [notifOpen, setNotifOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const { lang, t, toggleLang } = useLanguage();
   const notifRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -69,14 +65,29 @@ export default function Navbar() {
 
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
-      if (e.key === "/" && !searchOpen && !["INPUT", "TEXTAREA"].includes((e.target as HTMLElement).tagName)) {
+      if (e.key === "/" && !searchOpen && !menuOpen && !["INPUT", "TEXTAREA"].includes((e.target as HTMLElement).tagName)) {
         e.preventDefault();
         setSearchOpen(true);
+      }
+      if (e.key === "Escape" && menuOpen) {
+        setMenuOpen(false);
       }
     }
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [searchOpen]);
+  }, [searchOpen, menuOpen]);
+
+  // Lock body scroll when overlay is open
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [menuOpen]);
 
   const handleLogout = async () => {
     const supabase = createClient();
@@ -90,49 +101,63 @@ export default function Navbar() {
     user?.user_metadata?.full_name || user?.email?.split("@")[0] || "";
 
   const navLinks = [
-    ...baseNavLinks,
+    { href: "/", label: t.nav.home },
+    { href: "/about", label: t.nav.about },
+    { href: "/marketplace", label: t.nav.explore },
+    { href: "/dashboard/seller", label: t.nav.sell },
+    { href: "/dashboard/buyer", label: t.nav.mySubscriptions },
     ...(userRole === "admin"
-      ? [{ href: "/dashboard/admin", label: "Admin" }]
+      ? [{ href: "/dashboard/admin", label: t.nav.admin }]
       : []),
   ];
 
   const notifCount = 3;
 
+  const isActive = (href: string) => {
+    if (href === "/") return pathname === "/";
+    return pathname.startsWith(href);
+  };
+
   return (
     <>
-      <nav className="sticky top-0 z-50 border-b border-white/20 glass">
+      <nav className="sticky top-0 z-50 border-b border-gray-200/80 glass">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-          <Link href="/" className="flex items-center gap-2">
-            <Sparkles className="h-6 w-6 text-blue-600" />
-            <span className="text-lg font-semibold text-gray-900">merAI</span>
-          </Link>
+          {/* Left: hamburger + logo */}
+          <div className="flex items-center gap-3">
+            {/* Hamburger menu trigger */}
+            <button
+              onClick={() => setMenuOpen(true)}
+              className="flex h-9 w-9 items-center justify-center rounded-lg text-black transition-colors hover:bg-gray-100"
+              aria-label="Open navigation menu"
+            >
+              <Menu className="h-5 w-5" />
+            </button>
 
-          {/* Desktop nav */}
-          <div className="hidden items-center gap-1 md:flex">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`rounded-lg px-3 py-2 text-sm font-medium transition-all duration-200 ${
-                  pathname.startsWith(link.href)
-                    ? "bg-blue-50 text-blue-600"
-                    : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
-                }`}
-              >
-                {link.label}
-              </Link>
-            ))}
+            {/* Logo - marketfeed style */}
+            <Link href="/" className="flex items-center">
+              <span className="text-[22px] font-extrabold tracking-tight text-black" style={{ fontFamily: "var(--font-inter), system-ui, -apple-system, sans-serif" }}>
+                merai
+              </span>
+            </Link>
           </div>
 
-          {/* Desktop auth + actions */}
-          <div className="hidden items-center gap-2 md:flex">
+          {/* Right: actions */}
+          <div className="flex items-center gap-2">
             {/* Search trigger */}
             <button
               onClick={() => setSearchOpen(true)}
-              className="flex items-center gap-2 rounded-lg border border-gray-200 bg-gray-50 px-3 py-1.5 text-sm text-gray-400 transition-colors hover:border-gray-300 hover:bg-gray-100"
+              className="hidden items-center gap-2 rounded-lg border border-gray-200 bg-gray-50 px-3 py-1.5 text-sm text-gray-400 transition-colors hover:border-gray-300 hover:bg-gray-100 md:flex"
             >
               <Search className="h-4 w-4" />
-              <span className="hidden lg:inline">Press / to search</span>
+              <span className="hidden lg:inline">{t.nav.searchPlaceholder}</span>
+            </button>
+
+            {/* Mobile search */}
+            <button
+              onClick={() => setSearchOpen(true)}
+              className="rounded-lg p-2 text-gray-500 hover:bg-gray-50 md:hidden"
+            >
+              <Search className="h-5 w-5" />
             </button>
 
             {loading ? (
@@ -141,12 +166,12 @@ export default function Navbar() {
               <>
                 {/* Become a Seller */}
                 {userRole === "buyer" && (
-                  <Link href="/dashboard/seller">
+                  <Link href="/dashboard/seller" className="hidden md:block">
                     <Button
                       size="sm"
-                      className="bg-gradient-to-r from-blue-600 to-purple-600 text-white text-xs font-semibold hover:from-blue-700 hover:to-purple-700"
+                      className="bg-black text-white text-xs font-semibold hover:bg-gray-800"
                     >
-                      Become a Seller
+                      {t.nav.becomeSeller}
                     </Button>
                   </Link>
                 )}
@@ -155,11 +180,11 @@ export default function Navbar() {
                 <div ref={notifRef} className="relative">
                   <button
                     onClick={() => setNotifOpen(!notifOpen)}
-                    className="relative rounded-lg p-2 text-gray-500 transition-colors hover:bg-gray-50 hover:text-gray-700"
+                    className="relative rounded-lg p-2 text-gray-500 transition-colors hover:bg-gray-100 hover:text-black"
                   >
                     <Bell className="h-5 w-5" />
                     {notifCount > 0 && (
-                      <span className="absolute -right-0.5 -top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white">
+                      <span className="absolute -right-0.5 -top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-black text-[10px] font-bold text-white">
                         {notifCount}
                       </span>
                     )}
@@ -169,39 +194,39 @@ export default function Navbar() {
                   {notifOpen && (
                     <div className="absolute right-0 top-full mt-2 w-80 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-lg">
                       <div className="border-b px-4 py-3">
-                        <h3 className="font-semibold text-gray-900 text-sm">Notifications</h3>
+                        <h3 className="font-semibold text-black text-sm">{t.nav.notifications}</h3>
                       </div>
                       <div className="max-h-72 overflow-y-auto">
                         {placeholderNotifications.map((n) => (
                           <div
                             key={n.id}
                             className={`flex gap-3 px-4 py-3 transition-colors hover:bg-gray-50 ${
-                              n.unread ? "bg-blue-50/50" : ""
+                              n.unread ? "bg-gray-50/50" : ""
                             }`}
                           >
-                            <div className="mt-0.5 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-blue-100">
-                              <Bell className="h-4 w-4 text-blue-600" />
+                            <div className="mt-0.5 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-gray-100">
+                              <Bell className="h-4 w-4 text-gray-600" />
                             </div>
                             <div className="min-w-0 flex-1">
                               <p className="text-sm text-gray-700">{n.text}</p>
                               <p className="mt-0.5 text-xs text-gray-400">{n.time}</p>
                             </div>
                             {n.unread && (
-                              <div className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-blue-600" />
+                              <div className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-black" />
                             )}
                           </div>
                         ))}
                       </div>
                       <div className="border-t px-4 py-2">
-                        <button className="w-full text-center text-xs font-medium text-blue-600 hover:text-blue-700">
-                          View all notifications
+                        <button className="w-full text-center text-xs font-medium text-black hover:text-gray-600">
+                          {t.nav.viewAllNotifications}
                         </button>
                       </div>
                     </div>
                   )}
                 </div>
 
-                <div className="flex items-center gap-2 text-sm text-gray-600">
+                <div className="hidden items-center gap-2 text-sm text-gray-600 md:flex">
                   <User className="h-4 w-4" />
                   <span className="max-w-[120px] truncate">{displayName}</span>
                 </div>
@@ -209,130 +234,98 @@ export default function Navbar() {
                   variant="ghost"
                   size="sm"
                   onClick={handleLogout}
-                  className="transition-all duration-200"
+                  className="hidden transition-all duration-200 md:flex"
                 >
                   <LogOut className="mr-1 h-4 w-4" />
-                  Log out
+                  {t.nav.logout}
                 </Button>
               </>
             ) : (
               <>
-                <Link href="/auth/login">
+                <Link href="/auth/login" className="hidden md:block">
                   <Button variant="ghost" size="sm" className="transition-all duration-200">
-                    Log in
+                    {t.nav.login}
                   </Button>
                 </Link>
                 <Link href="/auth/register">
                   <Button
                     size="sm"
-                    className="gradient-primary text-white transition-all duration-200 hover:opacity-90"
+                    className="bg-black text-white transition-all duration-200 hover:bg-gray-800"
                   >
-                    Sign up
+                    {t.nav.signup}
                   </Button>
                 </Link>
               </>
             )}
-          </div>
 
-          {/* Mobile toggle */}
-          <div className="flex items-center gap-2 md:hidden">
+            {/* Language toggle */}
             <button
-              onClick={() => setSearchOpen(true)}
-              className="rounded-lg p-2 text-gray-500 hover:bg-gray-50"
+              onClick={toggleLang}
+              className="flex items-center gap-1 rounded-lg border border-gray-200 px-2 py-1.5 text-xs font-semibold text-gray-600 transition-colors hover:border-gray-300 hover:bg-gray-50 hover:text-black"
             >
-              <Search className="h-5 w-5" />
-            </button>
-            {user && (
-              <button
-                onClick={() => setNotifOpen(!notifOpen)}
-                className="relative rounded-lg p-2 text-gray-500 hover:bg-gray-50"
-              >
-                <Bell className="h-5 w-5" />
-                {notifCount > 0 && (
-                  <span className="absolute -right-0.5 -top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white">
-                    {notifCount}
-                  </span>
-                )}
-              </button>
-            )}
-            <button
-              onClick={() => setMobileOpen(!mobileOpen)}
-            >
-              {mobileOpen ? (
-                <X className="h-6 w-6" />
-              ) : (
-                <Menu className="h-6 w-6" />
-              )}
+              <Globe className="h-3.5 w-3.5" />
+              {lang}
             </button>
           </div>
         </div>
+      </nav>
 
-        {/* Mobile menu */}
-        {mobileOpen && (
-          <div className="border-t border-gray-100 bg-white px-4 pb-4 pt-2 md:hidden">
+      {/* Full-screen navigation overlay */}
+      {menuOpen && (
+        <div className="fixed inset-0 z-[200] bg-white">
+          {/* Close button */}
+          <div className="flex justify-end px-6 pt-5">
+            <button
+              onClick={() => setMenuOpen(false)}
+              className="flex h-10 w-10 items-center justify-center rounded-lg text-gray-500 transition-colors hover:bg-gray-100 hover:text-black"
+              aria-label="Close menu"
+            >
+              <X className="h-7 w-7" />
+            </button>
+          </div>
+
+          {/* Centered navigation links */}
+          <div className="flex flex-col items-center justify-center gap-8 pt-12">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                onClick={() => setMobileOpen(false)}
-                className={`block rounded-lg px-3 py-2 text-sm font-medium transition-all duration-200 ${
-                  pathname.startsWith(link.href)
-                    ? "bg-blue-50 text-blue-600"
-                    : "text-gray-600"
+                onClick={() => setMenuOpen(false)}
+                className={`text-2xl font-semibold transition-colors sm:text-3xl ${
+                  isActive(link.href)
+                    ? "text-black"
+                    : "text-gray-400 hover:text-black"
                 }`}
               >
                 {link.label}
               </Link>
             ))}
-            {user && userRole === "buyer" && (
-              <Link
-                href="/dashboard/seller"
-                onClick={() => setMobileOpen(false)}
-                className="mt-2 block"
+          </div>
+
+          {/* Bottom auth actions (mobile) */}
+          <div className="absolute bottom-12 left-0 right-0 flex justify-center gap-4 px-6 md:hidden">
+            {user ? (
+              <Button
+                variant="outline"
+                size="lg"
+                onClick={() => {
+                  handleLogout();
+                  setMenuOpen(false);
+                }}
               >
-                <Button
-                  size="sm"
-                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white text-xs font-semibold"
-                >
-                  Become a Seller
+                <LogOut className="mr-2 h-4 w-4" />
+                {t.nav.logout}
+              </Button>
+            ) : (
+              <Link href="/auth/login" onClick={() => setMenuOpen(false)}>
+                <Button variant="outline" size="lg">
+                  {t.nav.login}
                 </Button>
               </Link>
             )}
-            <div className="mt-3 flex gap-2">
-              {user ? (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="w-full"
-                  onClick={() => {
-                    handleLogout();
-                    setMobileOpen(false);
-                  }}
-                >
-                  <LogOut className="mr-1 h-4 w-4" />
-                  Log out ({displayName})
-                </Button>
-              ) : (
-                <>
-                  <Link href="/auth/login" className="flex-1">
-                    <Button variant="outline" size="sm" className="w-full">
-                      Log in
-                    </Button>
-                  </Link>
-                  <Link href="/auth/register" className="flex-1">
-                    <Button
-                      size="sm"
-                      className="w-full gradient-primary text-white"
-                    >
-                      Sign up
-                    </Button>
-                  </Link>
-                </>
-              )}
-            </div>
           </div>
-        )}
-      </nav>
+        </div>
+      )}
 
       {/* Search Modal */}
       <SearchModal open={searchOpen} onClose={() => setSearchOpen(false)} />

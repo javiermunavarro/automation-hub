@@ -11,19 +11,19 @@ interface BadgeStackProps {
 const badgeConfig: Record<BadgeType, { label: string; className: string }> = {
   featured: {
     label: "Featured",
-    className: "bg-blue-600 text-white hover:bg-blue-700 border-0",
+    className: "bg-black text-white hover:bg-gray-800 border-0",
   },
   bestseller: {
     label: "Bestseller",
-    className: "bg-orange-500 text-white hover:bg-orange-600 border-0",
+    className: "bg-gray-700 text-white hover:bg-gray-600 border-0",
   },
   new: {
     label: "New",
-    className: "bg-green-500 text-white hover:bg-green-600 border-0",
+    className: "bg-gray-900 text-white hover:bg-gray-800 border-0",
   },
   verified: {
     label: "Verified",
-    className: "bg-purple-600 text-white hover:bg-purple-700 border-0",
+    className: "bg-gray-500 text-white hover:bg-gray-400 border-0",
   },
 };
 

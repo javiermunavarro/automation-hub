@@ -102,11 +102,11 @@ export default function SearchModal({ open, onClose }: SearchModalProps) {
                   onClick={() => handleSelect(a.id)}
                   className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left transition-colors hover:bg-gray-50"
                 >
-                  <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-blue-50">
-                    <Zap className="h-5 w-5 text-blue-600" />
+                  <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-gray-100">
+                    <Zap className="h-5 w-5 text-gray-600" />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <p className="truncate font-medium text-gray-900">{a.title}</p>
+                    <p className="truncate font-medium text-black">{a.title}</p>
                     <p className="truncate text-xs text-gray-500">{a.platform} &middot; &euro;{a.price_monthly}/mo</p>
                   </div>
                 </button>
@@ -141,7 +141,7 @@ export default function SearchModal({ open, onClose }: SearchModalProps) {
                     <button
                       key={term}
                       onClick={() => setQuery(term)}
-                      className="flex items-center gap-1.5 rounded-full border border-gray-200 px-3 py-1.5 text-sm text-gray-600 transition-colors hover:border-blue-300 hover:bg-blue-50 hover:text-blue-600"
+                      className="flex items-center gap-1.5 rounded-full border border-gray-200 px-3 py-1.5 text-sm text-gray-600 transition-colors hover:border-black hover:bg-gray-50 hover:text-black"
                     >
                       <TrendingUp className="h-3 w-3" />
                       {term}
@@ -159,11 +159,11 @@ export default function SearchModal({ open, onClose }: SearchModalProps) {
                     onClick={() => handleSelect(a.id)}
                     className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left transition-colors hover:bg-gray-50"
                   >
-                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-blue-50">
-                      <Zap className="h-5 w-5 text-blue-600" />
+                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-gray-100">
+                      <Zap className="h-5 w-5 text-gray-600" />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <p className="truncate font-medium text-gray-900">{a.title}</p>
+                      <p className="truncate font-medium text-black">{a.title}</p>
                       <p className="truncate text-xs text-gray-500">{a.short_description}</p>
                     </div>
                   </button>

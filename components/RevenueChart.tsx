@@ -27,7 +27,7 @@ export default function RevenueChart({ data = defaultData }: RevenueChartProps) 
               &euro;{item.value}
             </span>
             <div
-              className="w-full rounded-t-md bg-gradient-to-t from-blue-600 to-purple-500 transition-all duration-300"
+              className="w-full rounded-t-md bg-gradient-to-t from-gray-800 to-gray-500 transition-all duration-300"
               style={{ height: `${heightPercent}%`, minHeight: 4 }}
             />
             <span className="text-xs text-muted-foreground">{item.label}</span>

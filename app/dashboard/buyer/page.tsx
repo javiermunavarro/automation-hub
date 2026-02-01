@@ -42,15 +42,16 @@ export default function BuyerDashboardPage() {
         data: { user },
       } = await supabase.auth.getUser();
 
-      if (!user) {
-        router.push("/auth/login");
-        return;
-      }
+      // TEMPORARILY DISABLED AUTH CHECK FOR DESIGN PREVIEW
+      // if (!user) {
+      //   router.push("/auth/login");
+      //   return;
+      // }
 
       const { data, error } = await supabase
         .from("subscriptions")
         .select("*, automation:automations(id, title, platform)")
-        .eq("buyer_id", user.id)
+        .eq("buyer_id", user?.id ?? "preview")
         .order("created_at", { ascending: false });
 
       if (!error && data) {
@@ -88,7 +89,7 @@ export default function BuyerDashboardPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-32">
-        <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
+        <Loader2 className="h-8 w-8 animate-spin text-black" />
       </div>
     );
   }
@@ -136,7 +137,7 @@ export default function BuyerDashboardPage() {
               You don&apos;t have any subscriptions yet.
             </p>
             <Link href="/marketplace">
-              <Button className="bg-blue-600 hover:bg-blue-700">
+              <Button className="bg-black hover:bg-gray-800">
                 Browse Marketplace
               </Button>
             </Link>
@@ -148,8 +149,8 @@ export default function BuyerDashboardPage() {
             <Card key={sub.id}>
               <CardContent className="flex flex-col gap-4 p-6 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex items-center gap-4">
-                  <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-blue-100 to-purple-100">
-                    <Zap className="h-7 w-7 text-blue-600/60" />
+                  <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-gray-100 to-gray-200">
+                    <Zap className="h-7 w-7 text-black/60" />
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900">

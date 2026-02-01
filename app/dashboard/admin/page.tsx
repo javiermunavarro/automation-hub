@@ -107,7 +107,7 @@ export default function AdminDashboardPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-32">
-        <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
+        <Loader2 className="h-8 w-8 animate-spin text-black" />
       </div>
     );
   }
@@ -140,13 +140,13 @@ export default function AdminDashboardPage() {
       label: "Total Users",
       value: String(users.length),
       icon: Users,
-      color: "bg-blue-100 text-blue-600",
+      color: "bg-gray-100 text-black",
     },
     {
       label: "Total Automations",
       value: String(automations.length),
       icon: Package,
-      color: "bg-purple-100 text-purple-600",
+      color: "bg-gray-200 text-gray-700",
     },
     {
       label: "Pending Review",
@@ -166,7 +166,7 @@ export default function AdminDashboardPage() {
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
       <div className="mb-8">
         <div className="flex items-center gap-3">
-          <Shield className="h-8 w-8 text-blue-600" />
+          <Shield className="h-8 w-8 text-black" />
           <div>
             <h1 className="text-3xl font-bold text-gray-900">
               Admin Dashboard
@@ -371,7 +371,7 @@ export default function AdminDashboardPage() {
                             u.role === "admin"
                               ? "bg-red-100 text-red-700 hover:bg-red-100"
                               : u.role === "seller"
-                                ? "bg-blue-100 text-blue-700 hover:bg-blue-100"
+                                ? "bg-gray-200 text-gray-700 hover:bg-gray-200"
                                 : "bg-gray-100 text-gray-700 hover:bg-gray-100"
                           }
                         >

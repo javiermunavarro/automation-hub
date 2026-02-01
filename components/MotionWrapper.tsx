@@ -98,7 +98,7 @@ export function TestimonialsCarousel({ children, className }: TestimonialsCarous
             key={i}
             onClick={() => setCurrent(i)}
             className={`h-2 rounded-full transition-all duration-300 ${
-              i === current ? "w-8 bg-blue-600" : "w-2 bg-gray-300"
+              i === current ? "w-8 bg-black" : "w-2 bg-gray-300"
             }`}
           />
         ))}

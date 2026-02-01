@@ -298,7 +298,7 @@ export default function MarketplacePage() {
         <div className="flex-1">
           {loading ? (
             <div className="flex items-center justify-center py-20">
-              <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
+              <Loader2 className="h-8 w-8 animate-spin text-black" />
             </div>
           ) : filtered.length === 0 ? (
             <div className="py-20 text-center">

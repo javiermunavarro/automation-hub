@@ -183,9 +183,9 @@ export default function CreateAutomationPage() {
                   onClick={() => setCurrentStep(i)}
                   className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-medium transition-colors ${
                     i === currentStep
-                      ? "bg-blue-600 text-white"
+                      ? "bg-black text-white"
                       : i < currentStep
-                        ? "bg-blue-100 text-blue-600"
+                        ? "bg-gray-100 text-black"
                         : "bg-gray-100 text-gray-400"
                   }`}
                 >
@@ -377,10 +377,10 @@ export default function CreateAutomationPage() {
                   </p>
 
                   {/* Preview Card */}
-                  <Card className="overflow-hidden border-blue-200 bg-blue-50/30">
-                    <div className="aspect-video bg-gradient-to-br from-blue-100 to-purple-100">
+                  <Card className="overflow-hidden border-gray-300 bg-gray-50/30">
+                    <div className="aspect-video bg-gradient-to-br from-gray-100 to-gray-200">
                       <div className="flex h-full items-center justify-center">
-                        <Zap className="h-12 w-12 text-blue-600/40" />
+                        <Zap className="h-12 w-12 text-gray-400/40" />
                       </div>
                     </div>
                     <CardContent className="p-4">
@@ -446,7 +446,7 @@ export default function CreateAutomationPage() {
                       type="checkbox"
                       checked={agreedToTerms}
                       onChange={(e) => setAgreedToTerms(e.target.checked)}
-                      className="mt-1 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                      className="mt-1 h-4 w-4 rounded border-gray-300 text-black focus:ring-gray-500"
                     />
                     <span className="text-sm text-gray-600">
                       I confirm that I own the rights to this automation and agree to the
@@ -474,7 +474,7 @@ export default function CreateAutomationPage() {
                         Math.min(stepLabels.length - 1, s + 1)
                       )
                     }
-                    className="bg-blue-600 hover:bg-blue-700"
+                    className="bg-black hover:bg-gray-800"
                   >
                     Next
                     <ArrowRight className="ml-2 h-4 w-4" />
@@ -505,9 +505,9 @@ export default function CreateAutomationPage() {
           <div className="sticky top-24">
             <h3 className="mb-4 font-semibold text-gray-900">Preview</h3>
             <Card className="overflow-hidden">
-              <div className="aspect-video bg-gradient-to-br from-blue-100 to-purple-100">
+              <div className="aspect-video bg-gradient-to-br from-gray-100 to-gray-200">
                 <div className="flex h-full items-center justify-center">
-                  <Zap className="h-12 w-12 text-blue-600/40" />
+                  <Zap className="h-12 w-12 text-gray-400/40" />
                 </div>
               </div>
               <CardContent className="p-4">

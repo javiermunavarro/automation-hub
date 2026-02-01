@@ -80,7 +80,7 @@ export default function SearchBar({ value, onChange, automations = [] }: SearchB
             <button
               key={a.id}
               className={`flex w-full items-center justify-between px-4 py-3 text-left text-sm transition-colors ${
-                index === highlightIndex ? "bg-blue-50" : "hover:bg-gray-50"
+                index === highlightIndex ? "bg-gray-100" : "hover:bg-gray-50"
               }`}
               onClick={() => {
                 router.push(`/marketplace/${a.id}`);

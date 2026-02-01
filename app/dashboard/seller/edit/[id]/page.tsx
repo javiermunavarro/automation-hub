@@ -172,7 +172,7 @@ export default function EditAutomationPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-32">
-        <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
+        <Loader2 className="h-8 w-8 animate-spin text-black" />
       </div>
     );
   }
@@ -207,8 +207,8 @@ export default function EditAutomationPage() {
                   onClick={() => setCurrentStep(i)}
                   className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-medium transition-colors ${
                     i === currentStep
-                      ? "bg-blue-600 text-white"
-                      : "bg-blue-100 text-blue-600"
+                      ? "bg-black text-white"
+                      : "bg-gray-100 text-black"
                   }`}
                 >
                   {i + 1}
@@ -411,7 +411,7 @@ export default function EditAutomationPage() {
                         Math.min(stepLabels.length - 1, s + 1)
                       )
                     }
-                    className="bg-blue-600 hover:bg-blue-700"
+                    className="bg-black hover:bg-gray-800"
                   >
                     Next
                     <ArrowRight className="ml-2 h-4 w-4" />
@@ -442,9 +442,9 @@ export default function EditAutomationPage() {
           <div className="sticky top-24">
             <h3 className="mb-4 font-semibold text-gray-900">Preview</h3>
             <Card className="overflow-hidden">
-              <div className="aspect-video bg-gradient-to-br from-blue-100 to-purple-100">
+              <div className="aspect-video bg-gradient-to-br from-gray-100 to-gray-200">
                 <div className="flex h-full items-center justify-center">
-                  <Zap className="h-12 w-12 text-blue-600/40" />
+                  <Zap className="h-12 w-12 text-gray-400/40" />
                 </div>
               </div>
               <CardContent className="p-4">

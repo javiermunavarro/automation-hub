@@ -24,29 +24,34 @@ import { createClient } from "@/lib/supabase/client";
 import { Automation } from "@/lib/types";
 import RatingStars from "@/components/RatingStars";
 import RevenueChart from "@/components/RevenueChart";
+import SellerPreview from "@/components/SellerPreview";
 
 export default function SellerDashboardPage() {
   const router = useRouter();
   const [automations, setAutomations] = useState<Automation[]>([]);
   const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
     async function fetchData() {
       const supabase = createClient();
 
       const {
-        data: { user },
+        data: { user: currentUser },
       } = await supabase.auth.getUser();
 
-      if (!user) {
-        router.push("/auth/login");
+      if (!currentUser) {
+        setUser(null);
+        setLoading(false);
         return;
       }
+
+      setUser(currentUser);
 
       const { data, error } = await supabase
         .from("automations")
         .select("*")
-        .eq("creator_id", user.id)
+        .eq("creator_id", currentUser.id)
         .order("created_at", { ascending: false });
 
       if (!error && data) {
@@ -100,7 +105,7 @@ export default function SellerDashboardPage() {
       label: "Automations",
       value: String(automations.length),
       icon: Users,
-      color: "bg-blue-50 text-blue-600",
+      color: "bg-gray-100 text-black",
       trend: "+3",
       trendUp: true,
     },
@@ -108,7 +113,7 @@ export default function SellerDashboardPage() {
       label: "Total Installs",
       value: totalInstalls.toLocaleString(),
       icon: Download,
-      color: "bg-purple-50 text-purple-600",
+      color: "bg-gray-100 text-gray-700",
       trend: "+8%",
       trendUp: true,
     },
@@ -156,9 +161,13 @@ export default function SellerDashboardPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-32">
-        <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
+        <Loader2 className="h-8 w-8 animate-spin text-black" />
       </div>
     );
+  }
+
+  if (!user) {
+    return <SellerPreview />;
   }
 
   return (
@@ -336,7 +345,7 @@ export default function SellerDashboardPage() {
           {recentReviews.map((review) => (
             <div key={review.id} className="flex gap-4 p-6">
               <Avatar className="h-10 w-10">
-                <AvatarFallback className="bg-blue-50 text-sm font-medium text-blue-600">
+                <AvatarFallback className="bg-gray-100 text-sm font-medium text-black">
                   {review.initials}
                 </AvatarFallback>
               </Avatar>

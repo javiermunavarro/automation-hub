@@ -60,7 +60,7 @@ export default function RegisterPage() {
         <CardContent className="p-8">
           <div className="mb-6 text-center">
             <div className="mb-4 flex justify-center">
-              <Bot className="h-10 w-10 text-blue-600" />
+              <Bot className="h-10 w-10 text-black" />
             </div>
             <h1 className="text-2xl font-bold text-gray-900">
               Create your account
@@ -135,7 +135,7 @@ export default function RegisterPage() {
             </div>
             <Button
               type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700"
+              className="w-full bg-black hover:bg-gray-800"
               disabled={loading}
             >
               {loading ? "Creating account..." : "Create Account"}
@@ -146,7 +146,7 @@ export default function RegisterPage() {
             Already have an account?{" "}
             <Link
               href="/auth/login"
-              className="font-medium text-blue-600 hover:text-blue-500"
+              className="font-medium text-black hover:text-gray-600"
             >
               Sign in
             </Link>

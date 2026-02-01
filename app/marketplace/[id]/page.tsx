@@ -184,7 +184,7 @@ export default function AutomationDetailPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-32">
-        <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
+        <Loader2 className="h-8 w-8 animate-spin text-black" />
       </div>
     );
   }
@@ -210,13 +210,13 @@ export default function AutomationDetailPage() {
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
       {/* Breadcrumb */}
       <nav className="mb-6 flex items-center gap-1 text-sm text-gray-500">
-        <Link href="/marketplace" className="transition-colors hover:text-blue-600">
+        <Link href="/marketplace" className="transition-colors hover:text-black">
           Marketplace
         </Link>
         <ChevronRight className="h-3.5 w-3.5" />
         <Link
           href={`/marketplace?category=${automation.category_id}`}
-          className="transition-colors hover:text-blue-600"
+          className="transition-colors hover:text-black"
         >
           {categoryName}
         </Link>
@@ -228,16 +228,16 @@ export default function AutomationDetailPage() {
         {/* Main Content */}
         <div className="lg:col-span-2">
           {/* Hero image */}
-          <div className="mb-6 overflow-hidden rounded-xl bg-gradient-to-br from-blue-50 to-purple-50">
+          <div className="mb-6 overflow-hidden rounded-xl bg-gradient-to-br from-gray-100 to-gray-200">
             <div className="flex aspect-video items-center justify-center">
-              <Zap className="h-20 w-20 text-blue-600/20" />
+              <Zap className="h-20 w-20 text-gray-400/30" />
             </div>
           </div>
 
           {/* Creator badge */}
           <div className="mb-4 flex items-center gap-3">
             <Avatar className="h-10 w-10">
-              <AvatarFallback className="bg-blue-600 text-sm font-medium text-white">
+              <AvatarFallback className="bg-black text-sm font-medium text-white">
                 AI
               </AvatarFallback>
             </Avatar>
@@ -246,7 +246,7 @@ export default function AutomationDetailPage() {
                 <span className="font-medium text-gray-900">
                   {automation.creator?.full_name || "AI Creator"}
                 </span>
-                <Badge className="border-0 bg-blue-100 text-[10px] text-blue-700 hover:bg-blue-100">
+                <Badge className="border-0 bg-gray-100 text-[10px] text-gray-700 hover:bg-gray-100">
                   Verified Creator
                 </Badge>
               </div>
@@ -411,7 +411,7 @@ export default function AutomationDetailPage() {
                     <p className="mb-4 text-sm text-gray-500">
                       <Link
                         href="/auth/login"
-                        className="text-blue-600 underline"
+                        className="text-black underline"
                       >
                         Log in
                       </Link>{" "}
@@ -473,7 +473,7 @@ export default function AutomationDetailPage() {
                   <CardContent className="p-6">
                     <div className="mb-3 flex items-center gap-3">
                       <Avatar className="h-10 w-10">
-                        <AvatarFallback className="bg-blue-100 text-blue-600">
+                        <AvatarFallback className="bg-gray-100 text-black">
                           {(review.user?.full_name || "U")
                             .split(" ")
                             .map((n) => n[0])
@@ -502,7 +502,7 @@ export default function AutomationDetailPage() {
               <Card>
                 <CardContent className="p-6">
                   <div className="flex items-center gap-2 mb-4">
-                    <FileText className="h-5 w-5 text-blue-600" />
+                    <FileText className="h-5 w-5 text-black" />
                     <h3 className="text-lg font-semibold text-gray-900">Documentation</h3>
                   </div>
                   <div className="prose max-w-none text-sm text-gray-600 space-y-4">
@@ -540,7 +540,7 @@ export default function AutomationDetailPage() {
               <Card>
                 <CardContent className="p-6">
                   <div className="flex items-center gap-2 mb-6">
-                    <History className="h-5 w-5 text-blue-600" />
+                    <History className="h-5 w-5 text-black" />
                     <h3 className="text-lg font-semibold text-gray-900">Changelog</h3>
                   </div>
                   <div className="space-y-6">
@@ -586,8 +586,8 @@ export default function AutomationDetailPage() {
                         ],
                       },
                     ].map((release) => (
-                      <div key={release.version} className="relative border-l-2 border-blue-200 pl-4">
-                        <div className="absolute -left-[5px] top-1 h-2 w-2 rounded-full bg-blue-600" />
+                      <div key={release.version} className="relative border-l-2 border-gray-300 pl-4">
+                        <div className="absolute -left-[5px] top-1 h-2 w-2 rounded-full bg-black" />
                         <div className="flex items-center gap-2 mb-1">
                           <span className="font-semibold text-gray-900">v{release.version}</span>
                           <Badge variant="secondary" className="text-xs">{release.type}</Badge>
@@ -667,7 +667,7 @@ export default function AutomationDetailPage() {
                     Garantia 30 dias
                   </div>
                   <div className="flex items-center gap-2 text-sm text-gray-600">
-                    <Headphones className="h-4 w-4 text-blue-500" />
+                    <Headphones className="h-4 w-4 text-gray-600" />
                     Soporte incluido
                   </div>
                   <div className="flex items-center gap-2 text-sm text-gray-600">

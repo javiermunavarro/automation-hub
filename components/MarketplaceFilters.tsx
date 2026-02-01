@@ -74,7 +74,7 @@ export default function MarketplaceFilters({
             variant="ghost"
             size="sm"
             onClick={handleClearAll}
-            className="h-auto p-0 text-xs text-blue-600 hover:text-blue-700"
+            className="h-auto p-0 text-xs text-black hover:text-gray-600"
           >
             <X className="mr-1 h-3 w-3" />
             Clear All
@@ -90,7 +90,7 @@ export default function MarketplaceFilters({
             onClick={() => onCategoryChange(null)}
             className={`w-full rounded-md px-3 py-1.5 text-left text-sm transition-colors ${
               selectedCategory === null
-                ? "bg-blue-50 font-medium text-blue-700"
+                ? "bg-gray-100 font-medium text-black"
                 : "text-gray-600 hover:bg-gray-50"
             }`}
           >
@@ -104,7 +104,7 @@ export default function MarketplaceFilters({
               }
               className={`w-full rounded-md px-3 py-1.5 text-left text-sm transition-colors ${
                 selectedCategory === cat.slug
-                  ? "bg-blue-50 font-medium text-blue-700"
+                  ? "bg-gray-100 font-medium text-black"
                   : "text-gray-600 hover:bg-gray-50"
               }`}
             >
@@ -131,7 +131,7 @@ export default function MarketplaceFilters({
             const val = Number(e.target.value);
             onPriceRangeChange([0, val]);
           }}
-          className="w-full accent-blue-600"
+          className="w-full accent-black"
         />
         <div className="flex justify-between text-xs text-gray-400">
           <span>&euro;0</span>
@@ -152,7 +152,7 @@ export default function MarketplaceFilters({
                 type="checkbox"
                 checked={selectedPlatforms.includes(platform)}
                 onChange={() => togglePlatform(platform)}
-                className="h-4 w-4 rounded border-gray-300 text-blue-600 accent-blue-600"
+                className="h-4 w-4 rounded border-gray-300 text-black accent-black"
               />
               {platform}
             </label>
@@ -172,7 +172,7 @@ export default function MarketplaceFilters({
               }
               className={`flex w-full items-center gap-1.5 rounded-md px-3 py-1.5 text-left text-sm transition-colors ${
                 minRating === opt.value
-                  ? "bg-blue-50 font-medium text-blue-700"
+                  ? "bg-gray-100 font-medium text-black"
                   : "text-gray-600 hover:bg-gray-50"
               }`}
             >
@@ -201,7 +201,7 @@ export default function MarketplaceFilters({
           <button
             onClick={() => onFreeTrialChange(!freeTrialOnly)}
             className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors ${
-              freeTrialOnly ? "bg-blue-600" : "bg-gray-200"
+              freeTrialOnly ? "bg-black" : "bg-gray-200"
             }`}
           >
             <span

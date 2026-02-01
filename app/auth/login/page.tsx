@@ -54,7 +54,7 @@ function LoginForm() {
         <CardContent className="p-8">
           <div className="mb-6 text-center">
             <div className="mb-4 flex justify-center">
-              <Bot className="h-10 w-10 text-blue-600" />
+              <Bot className="h-10 w-10 text-black" />
             </div>
             <h1 className="text-2xl font-bold text-gray-900">Welcome back</h1>
             <p className="mt-1 text-gray-500">Sign in to your account</p>
@@ -99,7 +99,7 @@ function LoginForm() {
             </div>
             <Button
               type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700"
+              className="w-full bg-black hover:bg-gray-800"
               disabled={loading}
             >
               {loading ? "Signing in..." : "Sign In"}
@@ -110,7 +110,7 @@ function LoginForm() {
             Don&apos;t have an account?{" "}
             <Link
               href="/auth/register"
-              className="font-medium text-blue-600 hover:text-blue-500"
+              className="font-medium text-black hover:text-gray-600"
             >
               Sign up
             </Link>

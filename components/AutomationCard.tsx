@@ -40,12 +40,12 @@ export default function AutomationCard({
       whileHover={{ scale: 1.03 }}
       transition={{ type: "spring", stiffness: 300, damping: 20 }}
     >
-      <Card className="group h-full cursor-pointer overflow-hidden border border-gray-200 transition-all duration-200 hover:border-blue-500/50 hover:shadow-xl">
+      <Card className="group h-full cursor-pointer overflow-hidden border border-gray-200 transition-all duration-200 hover:border-black/50 hover:shadow-xl">
         <Link href={`/marketplace/${automation.id}`}>
           {/* Thumbnail */}
-          <div className="relative aspect-video overflow-hidden bg-gradient-to-br from-blue-50 to-purple-50">
+          <div className="relative aspect-video overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200">
             <div className="flex h-full items-center justify-center transition-transform duration-300 group-hover:scale-105">
-              <PlatformIcon className="h-14 w-14 text-blue-600/25" />
+              <PlatformIcon className="h-14 w-14 text-gray-400/50" />
             </div>
 
             {/* Badge overlay top-left */}
@@ -61,7 +61,7 @@ export default function AutomationCard({
             {/* Creator avatar bottom-left */}
             <div className="absolute bottom-3 left-3">
               <Avatar className="h-8 w-8 border-2 border-white shadow-sm">
-                <AvatarFallback className="bg-blue-600 text-[10px] font-medium text-white">
+                <AvatarFallback className="bg-black text-[10px] font-medium text-white">
                   {creatorInitials}
                 </AvatarFallback>
               </Avatar>
@@ -70,7 +70,7 @@ export default function AutomationCard({
 
           {/* Content */}
           <CardContent className="p-4">
-            <h3 className="mb-1 line-clamp-1 font-semibold text-gray-900 transition-colors group-hover:text-blue-600">
+            <h3 className="mb-1 line-clamp-1 font-semibold text-black transition-colors group-hover:text-gray-600">
               {automation.title}
             </h3>
             <p className="mb-3 line-clamp-2 text-sm text-gray-500">
@@ -119,7 +119,7 @@ export default function AutomationCard({
             <Link href={`/marketplace/${automation.id}`} className="flex-1">
               <Button
                 size="sm"
-                className="w-full gradient-primary text-xs text-white"
+                className="w-full bg-black text-xs text-white hover:bg-gray-800"
               >
                 Suscribirse
               </Button>
